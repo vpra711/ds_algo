@@ -1,5 +1,4 @@
-#ifndef EDGE_HPP
-#define EDGE_HPP
+#pragma once
 
 #include "Vertex.hpp"
 
@@ -23,5 +22,3 @@ class Edge
         void setWeight(int weight);
 
 };
-
-#endif

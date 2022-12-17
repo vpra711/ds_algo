@@ -1,6 +1,4 @@
-#ifndef VERTEX_HPP
-#define VERTEX_HPP
-
+#pragma once
 #include <iostream>
 #include <vector>
 #include "Edge.hpp"
@@ -21,5 +19,3 @@ class Vertex
         void setData(std::string data);
         void setEdges(std::vector<Edge> edges);
 };
-
-#endif
