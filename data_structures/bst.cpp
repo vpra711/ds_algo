@@ -1,5 +1,6 @@
 #include <iostream>
 #include <Windows.h>
+
 typedef struct node node;
 struct node 
 {

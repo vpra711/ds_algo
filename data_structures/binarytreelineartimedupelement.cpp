@@ -1,20 +1,20 @@
 #include <iostream>
 #include <algorithm>
 
-class node
+class Node
 {
     public:
         int data;
-        node* leftChild;
-        node* rightChild;
+        Node* leftChild;
+        Node* rightChild;
 };
 
-void insertNode(node*, int);
-void travse(node*);
+void insertNode(Node*, int);
+void travse(Node*);
 
 int main()
 {
-    node *root = new node();
+    Node *root = new Node();
     root->data = 1;
     root->leftChild = NULL;
     root->rightChild = NULL;
@@ -31,18 +31,18 @@ int main()
     return 0;
 }
 
-void insertNode(node* parent, int data)
+void insertNode(Node* parent, int data)
 {
     if(parent == NULL)
     {
-        parent = new node();
+        parent = new Node();
         parent->data = data;
         parent->leftChild = NULL;
         parent->rightChild = NULL;
     }
     else
     {
-        node* travse = parent;
+        Node* travse = parent;
         while(travse != NULL)
         {
             parent = travse;
@@ -63,16 +63,16 @@ void insertNode(node* parent, int data)
 
         if(data > parent->data)
         {
-            parent->rightChild = new node();
-            node* temp = parent->rightChild;
+            parent->rightChild = new Node();
+            Node* temp = parent->rightChild;
             temp->data = data;
             temp->leftChild = NULL;
             temp->rightChild = NULL;
         }
         else
         {
-            parent->leftChild = new node();
-            node* temp = parent->leftChild;
+            parent->leftChild = new Node();
+            Node* temp = parent->leftChild;
             temp->data = data;
             temp->leftChild = NULL;
             temp->rightChild = NULL;
@@ -80,7 +80,7 @@ void insertNode(node* parent, int data)
     }
 }
 
-void travse(node* root)
+void travse(Node* root)
 {
     if(root == NULL)
         return ;

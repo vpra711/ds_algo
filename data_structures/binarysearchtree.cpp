@@ -1,75 +1,80 @@
 #include <iostream>
 #include <queue>
 
-class binarySearchTree
+class Node
 {
     public:
         int data;
-        binarySearchTree *leftNode;
-        binarySearchTree *rightNode;
+        Node *leftNode;
+        Node *rightNode;
 };
 
-binarySearchTree *newnode();
-void insertion(binarySearchTree *);
-void preoreder(binarySearchTree *);
-void inoreder(binarySearchTree *);
-void postoreder(binarySearchTree *);
-void search(binarySearchTree *);
-void depthwisetravasal(binarySearchTree *);
-void breathwisetravasal(binarySearchTree *);
+Node *newnode();
+void insertion(Node *);
+void preoreder(Node *);
+void inoreder(Node *);
+void postoreder(Node *);
+int search(Node *);
+int depthwisetravasal(Node *);
+int breathwisetravasal(Node *);
 
 int main()
 {
-    binarySearchTree *root = newnode();
+    Node *root = newnode();
     int option = 1;
-    while(option == 1 || option == 2 || option == 3 || option == 4)
+    
+    while(option != 5)
     {
         std::cout << "\nEnter the option for operation : ";
         std::cin >> option;
+
         switch (option)
         {
-            case 1 : insertion(root); break;
-            case 2 : search(root); break;
-            case 3 : depthwisetravasal(root); break;
-            case 4 : breathwisetravasal(root);  
+            case 1 : insertion(root);               break;
+            case 2 : search(root);                  break;
+            case 3 : depthwisetravasal(root);       break;
+            case 4 : breathwisetravasal(root);      break;
+            case 5 : exit(0);
         }
     }
+
     return 0;
 }
 
-binarySearchTree *newnode()
+Node *newnode()
 {
-    binarySearchTree *temp = new binarySearchTree;
+    Node *temp = new Node;
     temp->leftNode = temp->rightNode = NULL;
-    std::cout << "Enter the data to be inserted : " ;
+    std::cout << "Enter the data: " ;
     std::cin >> temp->data;
     return temp;
 }
 
-void insertion(binarySearchTree *node)
+void insertion(Node *node)
 {
-    std::queue<binarySearchTree *> tempQ;
-    binarySearchTree *temp = newnode();
+    Node *temp = newnode(), *parentNode;
+
     while(node != NULL)
     {
-        tempQ.push(node);
+        parentNode = node;
+
         if(temp->data >= node->data)
             node = node->leftNode;
         else
             node = node->rightNode;
     }
-    node = tempQ.back();
+
+    node = parentNode;
+
     if(temp->data >= node->data)
         node->leftNode = temp;
     else
         node->rightNode = temp;
 }
 
-void preorder(binarySearchTree *node)
+void preorder(Node *node)
 {
-    if(node == NULL)
-        return;
-    else
+    if(node != NULL)
     {
         std::cout << node->data << "\t";
         preorder(node->leftNode);
@@ -77,82 +82,92 @@ void preorder(binarySearchTree *node)
     }
 }
 
-void inorder(binarySearchTree *node)
+void inorder(Node *node)
 {
-    if(node == NULL)
-        return;
-    else
+    if(node != NULL)
     {
         inorder(node->leftNode);
         std::cout << node->data << "\t";
         inorder(node->rightNode);
     }
-
 }
 
-void postorder(binarySearchTree *node)
+void postorder(Node *node)
 {
-    if(node == NULL)
-        return;
-    else
+    if(node != NULL)
     {
         postorder(node->leftNode);
         postorder(node->rightNode);
         std::cout << node->data << "\t";
     }
-
 }
 
-void search(binarySearchTree *node)
+int search(Node *node)
 {
     if(node == NULL)
-        std::cout << "Tree is empty" << std::endl;
-    else
+        return -1;
+
+    int data;
+    std::cout << "Enter data to search: ";
+    std::cin >> data;
+
+    while(node != NULL)
     {
-        int data;
-        std::cout << "Enter the element to be searched : ";
-        std::cin >> data;
-        while(node != NULL)
+        if(data == node->data)
         {
-            if(data == node->data)
-            {
-                std::cout << "The element is :" << node->data << std::endl;
-                return ;
-            }
-            else if(data > node->data)
-                node = node->leftNode;
-            else
-                node = node->rightNode;
+            std::cout << "found" << std::endl;
+            return ;
         }
-        std::cout << "The element is not found." << std::endl;
+        else if(data > node->data)
+        {
+            node = node->leftNode;
+        }
+        else
+        {
+            node = node->rightNode;
+        }
+    }
+
+    std::cout << "not found." << std::endl;
+}
+
+int depthwisetravasal(Node *node)
+{
+    if(node == NULL)
+        return -1;
+
+    int option;
+    std::cout << "1.pre-order \n2.In-order \n3.post-order \nEnter the option for travasal : ";
+    std::cin >> option;
+
+    switch(option)
+    {
+        case 1  : preorder(node);                break;
+        case 2  : inorder(node);                 break;
+        case 3  : postorder(node);               break;
+        default : std::cout << "\nInvaild option" << std::endl;
     }
 }
 
-void depthwisetravasal(binarySearchTree *node)
+int breathwisetravasal(Node *node)
 {
     if(node == NULL)
-        std::cout << "Tree empty" << std::endl;
-    else
-    {
-        int option;
-        std::cout << "1.pre-order \n2.In-order \n3.post-order \nEnter the option for travasal : ";
-        std::cin >> option;
-        switch(option)
-        {
-            case 1 : preorder(node); break;
-            case 2 : inorder(node); break;
-            case 3 : postorder(node); break;
-            default : std::cout << "\nInvaild option" << std::endl;
-        }
-    }
-}
+        return -1;
 
-void breathwisetravasal(binarySearchTree *node)
-{
-    if(node == NULL)
-        std::cout << "Tree empty" << std::endl;
-    else
-        {
-            
-        } 
+    std::queue<Node *> nodesQ;
+    nodesQ.push(node);
+
+    while(!nodesQ.empty())
+    {
+        Node *temp = nodesQ.front();
+        std::cout << temp->data;
+
+        if(node->leftNode != NULL)
+            nodesQ.push(temp->leftNode);
+
+        if(node->rightNode != NULL)
+            nodesQ.push(temp->rightNode);
+
+        nodesQ.pop();
+    }
 }
